@@ -1,0 +1,48 @@
+using System;
+using System.Text.Json;
+
+namespace Portfolio
+{
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
+
+    public class JsonHandler
+    {
+        public static string SerializePerson(Person person)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(person, options);
+            Console.WriteLine("Serialized JSON:");
+            Console.WriteLine(json);
+            return json;
+        }
+
+        public static Person DeserializePerson(string json)
+        {
+            try
+            {
+                var person = JsonSerializer.Deserialize<Person>(json);
+                Console.WriteLine($"Deserialized: {person.Name}, {person.Age}");
+                return person;
+            }
+            catch (JsonException ex)
+            {
+                Console.WriteLine($"Error deserializing: {ex.Message}");
+                return null;
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            var person = new Person { Name = "John", Age = 30 };
+            string json = JsonHandler.SerializePerson(person);
+            JsonHandler.DeserializePerson(json);
+        }
+    }
+}
