@@ -1,0 +1,47 @@
+using System;
+using System.IO;
+
+namespace Portfolio
+{
+    public class FileManager
+    {
+        public static void WriteToFile(string path, string content)
+        {
+            try
+            {
+                File.WriteAllText(path, content);
+                Console.WriteLine("File written successfully.");
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"Error writing to file: {ex.Message}");
+            }
+        }
+
+        public static string ReadFromFile(string path)
+        {
+            try
+            {
+                string content = File.ReadAllText(path);
+                Console.WriteLine("File read successfully.");
+                return content;
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"Error reading file: {ex.Message}");
+                return string.Empty;
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            string path = "test.txt";
+            FileManager.WriteToFile(path, "Hello, World!\nThis is a test.");
+            string content = FileManager.ReadFromFile(path);
+            Console.WriteLine($"File content:\n{content}");
+        }
+    }
+}
