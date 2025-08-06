@@ -1,0 +1,33 @@
+using System;
+
+namespace Portfolio
+{
+    public class Button
+    {
+        public event EventHandler Clicked;
+
+        public void Click()
+        {
+            Console.WriteLine("Button clicked!");
+            Clicked?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public class EventDemo
+    {
+        public static void Run()
+        {
+            Button button = new Button();
+            button.Clicked += (sender, e) => Console.WriteLine("Event handler: Button was clicked!");
+            button.Click();
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            EventDemo.Run();
+        }
+    }
+}
