@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+
+namespace Portfolio
+{
+    public class PriorityQueue<T> where T : IComparable<T>
+    {
+        private readonly List<T> items = new List<T>();
+
+        public void Enqueue(T item)
+        {
+            items.Add(item);
+            items.Sort();
+            Console.WriteLine($"Enqueued: {item}");
+        }
+
+        public T Dequeue()
+        {
+            if (items.Count == 0) throw new InvalidOperationException("Queue is empty.");
+            T item = items[0];
+            items.RemoveAt(0);
+            Console.WriteLine($"Dequeued: {item}");
+            return item;
+        }
+
+        public int Count => items.Count;
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            var queue = new PriorityQueue<int>();
+            queue.Enqueue(3);
+            queue.Enqueue(1);
+            queue.Enqueue(2);
+            Console.WriteLine($"Dequeued: {queue.Dequeue()}"); // Should dequeue 1
+            Console.WriteLine($"Queue size: {queue.Count}");
+        }
+    }
+}
