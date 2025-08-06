@@ -1,0 +1,40 @@
+using System;
+
+namespace Portfolio
+{
+    public class Logger
+    {
+        private static Logger instance;
+        private static readonly object lockObject = new object();
+
+        private Logger() { }
+
+        public static Logger Instance
+        {
+            get
+            {
+                lock (lockObject)
+                {
+                    return instance ??= new Logger();
+                }
+            }
+        }
+
+        public void Log(string message)
+        {
+            Console.WriteLine($"[{DateTime.Now}]: {message}");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            var logger1 = Logger.Instance;
+            var logger2 = Logger.Instance;
+            logger1.Log("First message");
+            logger2.Log("Second message");
+            Console.WriteLine($"Same instance: {ReferenceEquals(logger1, logger2)}");
+        }
+    }
+}
