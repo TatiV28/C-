@@ -1,0 +1,28 @@
+using System;
+using System.Linq;
+
+namespace Portfolio
+{
+    public class ParallelProcessor
+    {
+        public static void ProcessLargeData()
+        {
+            var numbers = Enumerable.Range(1, 1000000).ToList();
+            var results = numbers.AsParallel()
+                .Where(n => n % 2 == 0)
+                .Select(n => n * n)
+                .ToList();
+
+            Console.WriteLine($"Processed {results.Count} even numbers.");
+            Console.WriteLine($"First 5 squares: {string.Join(", ", results.Take(5))}");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            ParallelProcessor.ProcessLargeData();
+        }
+    }
+}
