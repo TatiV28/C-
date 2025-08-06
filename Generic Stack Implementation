@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+
+namespace Portfolio
+{
+    public class GenericStack<T>
+    {
+        private readonly List<T> items = new List<T>();
+
+        public void Push(T item)
+        {
+            items.Add(item);
+            Console.WriteLine($"Pushed: {item}");
+        }
+
+        public T Pop()
+        {
+            if (items.Count == 0) throw new InvalidOperationException("Stack is empty.");
+            T item = items[^1];
+            items.RemoveAt(items.Count - 1);
+            Console.WriteLine($"Popped: {item}");
+            return item;
+        }
+
+        public int Count => items.Count;
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            var stack = new GenericStack<int>();
+            stack.Push(1);
+            stack.Push(2);
+            stack.Push(3);
+            Console.WriteLine($"Popped item: {stack.Pop()}");
+            Console.WriteLine($"Stack size: {stack.Count}");
+            try
+            {
+                while (true) stack.Pop(); // Test empty stack
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+    }
+}
