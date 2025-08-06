@@ -1,0 +1,30 @@
+using System;
+
+namespace Portfolio
+{
+    public class Calculator
+    {
+        public static double Divide(double a, double b)
+        {
+            try
+            {
+                if (b == 0) throw new DivideByZeroException("Cannot divide by zero.");
+                return a / b;
+            }
+            catch (DivideByZeroException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return 0;
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine($"10 / 2 = {Calculator.Divide(10, 2)}");
+            Console.WriteLine($"10 / 0 = {Calculator.Divide(10, 0)}");
+        }
+    }
+}
