@@ -1,0 +1,36 @@
+using System;
+using System.Threading.Tasks;
+
+namespace Portfolio
+{
+    public class TaskManager
+    {
+        public static async Task RunTasksAsync()
+        {
+            Console.WriteLine("Starting tasks...");
+            Task task1 = Task.Run(() =>
+            {
+                Console.WriteLine("Task 1 running...");
+                Task.Delay(1000).Wait();
+                Console.WriteLine("Task 1 completed.");
+            });
+            Task task2 = Task.Run(() =>
+            {
+                Console.WriteLine("Task 2 running...");
+                Task.Delay(1500).Wait();
+                Console.WriteLine("Task 2 completed.");
+            });
+
+            await Task.WhenAll(task1, task2);
+            Console.WriteLine("All tasks completed.");
+        }
+    }
+
+    class Program
+    {
+        static async Task Main()
+        {
+            await TaskManager.RunTasksAsync();
+        }
+    }
+}
