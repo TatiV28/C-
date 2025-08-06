@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+
+namespace Portfolio
+{
+    public class WordCounter
+    {
+        public static Dictionary<string, int> CountWords(string text)
+        {
+            var words = text.ToLower().Split(new[] { ' ', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            var wordCount = new Dictionary<string, int>();
+
+            foreach (var word in words)
+            {
+                if (wordCount.ContainsKey(word))
+                    wordCount[word]++;
+                else
+                    wordCount[word] = 1;
+            }
+
+            return wordCount;
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            string text = "hello world hello world test";
+            var counts = WordCounter.CountWords(text);
+            foreach (var pair in counts)
+                Console.WriteLine($"Word: {pair.Key}, Count: {pair.Value}");
+        }
+    }
+}
