@@ -1,0 +1,40 @@
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+namespace Portfolio
+{
+    public class TaskScheduler
+    {
+        public delegate void TaskDelegate();
+
+        private readonly List<(TaskDelegate, TimeSpan)> tasks = new List<(TaskDelegate, TimeSpan)>();
+
+        public void ScheduleTask(TaskDelegate task, TimeSpan delay)
+        {
+            tasks.Add((task, delay));
+            Console.WriteLine($"Scheduled task with delay: {delay.TotalSeconds} seconds");
+        }
+
+        public async Task RunTasksAsync()
+        {
+            foreach (var (task, delay) in tasks)
+            {
+                Console.WriteLine($"Waiting for {delay.TotalSeconds} seconds...");
+                await Task.Delay(delay);
+                task();
+            }
+        }
+    }
+
+    class Program
+    {
+        static async Task Main()
+        {
+            var scheduler = new TaskScheduler();
+            scheduler.ScheduleTask(() => Console.WriteLine("Task 1 executed"), TimeSpan.FromSeconds(1));
+            scheduler.ScheduleTask(() => Console.WriteLine("Task 2 executed"), TimeSpan.FromSeconds(2));
+            await scheduler.RunTasksAsync();
+        }
+    }
+}
