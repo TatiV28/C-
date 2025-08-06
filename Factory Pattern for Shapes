@@ -1,0 +1,67 @@
+using System;
+
+namespace Portfolio
+{
+    public interface IShape
+    {
+        double CalculateArea();
+    }
+
+    public class Circle : IShape
+    {
+        private readonly double radius;
+
+        public Circle(double radius)
+        {
+            if (radius <= 0) throw new ArgumentException("Radius must be positive.");
+            this.radius = radius;
+        }
+
+        public double CalculateArea() => Math.PI * radius * radius;
+    }
+
+    public class Rectangle : IShape
+    {
+        private readonly double width, height;
+
+        public Rectangle(double width, double height)
+        {
+            if (width <= 0 || height <= 0) throw new ArgumentException("Dimensions must be positive.");
+            this.width = width;
+            this.height = height;
+        }
+
+        public double CalculateArea() => width * height;
+    }
+
+    public class ShapeFactory
+    {
+        public static IShape CreateShape(string type, params double[] dimensions)
+        {
+            return type.ToLower() switch
+            {
+                "circle" => new Circle(dimensions[0]),
+                "rectangle" => new Rectangle(dimensions[0], dimensions[1]),
+                _ => throw new ArgumentException("Unknown shape type.")
+            };
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                var circle = ShapeFactory.CreateShape("circle", 5);
+                Console.WriteLine($"Circle area: {circle.CalculateArea():F2}");
+                var rectangle = ShapeFactory.CreateShape("rectangle", 4, 6);
+                Console.WriteLine($"Rectangle area: {rectangle.CalculateArea():F2}");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+    }
+}
