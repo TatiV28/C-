@@ -1,0 +1,39 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Portfolio
+{
+    public class ApiClient
+    {
+        private static readonly HttpClient client = new HttpClient();
+
+        public static async Task<string> FetchDataAsync(string url)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string data = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Data fetched successfully.");
+                return data;
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Error fetching data: {ex.Message}");
+                return string.Empty;
+            }
+        }
+    }
+
+    class Program
+    {
+        static async Task Main()
+        {
+            // Use a real API for testing, e.g., JSONPlaceholder
+            string url = "https://jsonplaceholder.typicode.com/posts/1";
+            string data = await ApiClient.FetchDataAsync(url);
+            Console.WriteLine($"Fetched data: {data[..50]}...");
+        }
+    }
+}
